@@ -1,0 +1,59 @@
+profiles多环境配置
+1. 数据源配置
+    1.1 url 根据自身情况去修改为 localhost 或者 内网 ip （集群或者分布式系统, 一定要修改内网ip）
+    1.2 密码 修改为 自己的密码
+
+2. mybatis日志打印
+    dev 可以打印
+    test 可以带你
+    prod  无需打印
+
+3. 图片保存目录 和 图片服务请求路径配置
+    file-upload-dev.properties
+    file-upload-prod.properties
+
+   file.imageUserFaceLocation=C:\\Users\\dell\\Desktop\\foodie-faces 头像上传的本地目录
+   file.imageServerUrl=http://localhost:8082/ #后端服务的地址
+
+   ##########
+   修改FileUpload.java
+   @PropertySource("classpath:file-upload-dev.properties")
+   public class FileUpload
+
+4. 从支付中心回调天天吃货后端服务的回调地址
+    BaseController.java 中有配置
+
+打包方式：
+1. jar  （pom文件缺省配置）
+    服务化的概念, 后续接触spring cloud 所有的服务打包都是以jar的形式存在
+2. war
+    应用程序的概念, 也可以向外提供服务接口
+
+5. 打包wawr
+    1） 修改 <packaging>为warw
+    2） 找到starter-web 的pom文件，并将内置tomcat的依赖给剔除
+    3） 给聚合工程的pom引入必须的servlet依赖
+    <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>provided</version>
+    </dependency>
+    4） 给war添加一个启动类
+    在 com.imooc目录下
+    package com.imooc;
+
+    import org.springframework.boot.builder.SpringApplicationBuilder;
+    import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+    /**
+     *  打包war [4] 增加war的启动类
+     *
+     */
+    public class WarStarterApplication extends SpringBootServletInitializer {
+
+        @Override
+        protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+            // 指向 Application这个springboot启动类
+            return builder.sources(Application.class);
+        }
+    }
