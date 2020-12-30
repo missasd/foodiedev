@@ -14,14 +14,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/META-INF/resources/") // 映射swagger2
-                .addResourceLocations("file:///C:/Users/dell/Desktop/foodie-faces/"); // 映射本地静态资源
-
-
+                .addResourceLocations("classpath:/META-INF/resources/")  // 映射swagger2
+                .addResourceLocations("file:/workspaces/images/");  // 映射本地静态资源
     }
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder){
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder.build();
     }
+
 }

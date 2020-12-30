@@ -49,9 +49,9 @@ public class MyOrdersServiceImpl extends BaseService implements MyOrdersService 
 
         List<MyOrdersVO> list = ordersMapperCustom.queryMyOrders(map);
 
-        for (MyOrdersVO s : list){
-            System.out.println(s);
-        }
+//        for (MyOrdersVO s : list){
+//            System.out.println(s);
+//        }
 
 
         return setterPagedGrid(list, page);
@@ -178,7 +178,7 @@ public class MyOrdersServiceImpl extends BaseService implements MyOrdersService 
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public PagedGridResult getOrderTrend(String userId, Integer page, Integer pageSize) {
+    public PagedGridResult getOrdersTrend(String userId, Integer page, Integer pageSize) {
 
 
         Map<String, Object> map = new HashMap<>();

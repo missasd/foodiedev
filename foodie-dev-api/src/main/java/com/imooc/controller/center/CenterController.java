@@ -12,28 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 用户中心 controller
- */
-
 @Api(value = "center - 用户中心", tags = {"用户中心展示的相关接口"})
 @RestController
 @RequestMapping("center")
 public class CenterController {
 
     @Autowired
-    CenterUserService centerUserService;
+    private CenterUserService centerUserService;
 
     @ApiOperation(value = "获取用户信息", notes = "获取用户信息", httpMethod = "GET")
     @GetMapping("userInfo")
     public JSONResult userInfo(
             @ApiParam(name = "userId", value = "用户id", required = true)
-            @RequestParam String userId){
+            @RequestParam String userId) {
+
         Users user = centerUserService.queryUserInfo(userId);
         return JSONResult.ok(user);
-
     }
 
-    // 保存用户信息
 
 }

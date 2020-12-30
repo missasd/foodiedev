@@ -44,7 +44,7 @@ public class MerchantOrdersVO {
         return reutrnUrl;
     }
 
-    public void setReutrnUrl(String reutrnUrl) {
+    public void setReturnUrl(String reutrnUrl) {
         this.reutrnUrl = reutrnUrl;
     }
 }

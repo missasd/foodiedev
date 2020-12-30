@@ -1,6 +1,5 @@
 package com.imooc.controller;
 
-import com.imooc.pojo.Stu;
 import com.imooc.pojo.Users;
 import com.imooc.pojo.bo.UserBO;
 import com.imooc.service.StuService;
@@ -19,117 +18,88 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Api(value = "注册登录", tags = {"用于注册登录的相关接口"})
 @RestController
 @RequestMapping("passport")
-@Api(value = "注册登录", tags = {"用于注册登录的相关接口"})
 public class PassportController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
+    @ApiOperation(value = "用户名是否存在", notes = "用户名是否存在", httpMethod = "GET")
     @GetMapping("/usernameIsExist")
-    // 该注解代表的是请求类型的参数，而不是路径参数
-    @ApiOperation(value = "用户存在", notes = "用户存在", httpMethod = "GET")
-    public JSONResult usernameIsExist(@RequestParam String username){
+    public JSONResult usernameIsExist(@RequestParam String username) {
+
         // 1. 判断用户名不能为空
-        if (StringUtils.isBlank(username)){
+        if (StringUtils.isBlank(username)) {
             return JSONResult.errorMsg("用户名不能为空");
         }
+
         // 2. 查找注册的用户名是否存在
-        boolean b = userService.queryUserIsExist(username);
-        if (b) return JSONResult.errorMsg("用户名已经存在");
+        boolean isExist = userService.queryUserIsExist(username);
+        if (isExist) {
+            return JSONResult.errorMsg("用户名已经存在");
+        }
 
-        // 3. 请求成功，用户名合法
+        // 3. 请求成功，用户名没有重复
         return JSONResult.ok();
-
     }
 
-    // 注册
-    @PostMapping("/regist")
     @ApiOperation(value = "用户注册", notes = "用户注册", httpMethod = "POST")
+    @PostMapping("/regist")
     public JSONResult regist(@RequestBody UserBO userBO,
-                             HttpServletRequest request,
-                             HttpServletResponse response){
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
+
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         String confirmPwd = userBO.getConfirmPassword();
 
-        // 0. 判断用户名和密码不为空
+        // 0. 判断用户名和密码必须不为空
         if (StringUtils.isBlank(username) ||
-            StringUtils.isBlank(password)||
-            StringUtils.isBlank(confirmPwd)
-        ){
+                StringUtils.isBlank(password) ||
+                StringUtils.isBlank(confirmPwd)) {
             return JSONResult.errorMsg("用户名或密码不能为空");
         }
 
         // 1. 查询用户名是否存在
-        boolean b = userService.queryUserIsExist(username);
-        if (b) return JSONResult.errorMsg("用户名已经存在");
+        boolean isExist = userService.queryUserIsExist(username);
+        if (isExist) {
+            return JSONResult.errorMsg("用户名已经存在");
+        }
+
         // 2. 密码长度不能少于6位
-        if (password.length() < 6){
+        if (password.length() < 6) {
             return JSONResult.errorMsg("密码长度不能少于6");
         }
 
         // 3. 判断两次密码是否一致
-        if (!password.equalsIgnoreCase(confirmPwd)){
-            return JSONResult.errorMsg("两次密码不一致");
+        if (!password.equals(confirmPwd)) {
+            return JSONResult.errorMsg("两次密码输入不一致");
         }
 
         // 4. 实现注册
         Users userResult = userService.createUser(userBO);
 
-        // 去除敏感信息
         userResult = setNullProperty(userResult);
 
-        // 在服务端将脱敏后的信息发到cookie中去
-        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userResult), true);
 
+        // TODO 生成用户token，存入redis会话
+        // TODO 同步购物车数据
 
         return JSONResult.ok();
-
     }
 
-    // 登录
-    @PostMapping("/login")
     @ApiOperation(value = "用户登录", notes = "用户登录", httpMethod = "POST")
+    @PostMapping("/login")
     public JSONResult login(@RequestBody UserBO userBO,
-                            HttpServletRequest request,
-                            HttpServletResponse response
-                            ) throws Exception {
-//        String username = userBO.getUsername();
-//        String password = userBO.getPassword();
-//
-//        // 0. 判断用户名和密码不为空
-//        if (StringUtils.isBlank(username) ||
-//                StringUtils.isBlank(password)
-//        ){
-//            return JSONResult.errorMsg("用户名或密码不能为空");
-//        }
-//        // 2. 密码长度不能少于6位
-//        if (password.length() < 6){
-//            return JSONResult.errorMsg("密码长度不能少于6");
-//        }
-//        // 4. 实现注册
-//        Users userResult = null;
-//        try {
-//            // System.out.println(MD5Utils.getMD5Str(password));
-//            userResult = userService.queryUserForLogin(username, MD5Utils.getMD5Str(password));
-//
-//            System.out.println(userResult);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        // 5. 查询结果判空
-//        if (userResult == null){
-//            return JSONResult.errorMsg("用户名或密码不正确");
-//        }
-//
-//        return JSONResult.ok(userResult);
-//
+                                 HttpServletRequest request,
+                                 HttpServletResponse response) throws Exception {
+
         String username = userBO.getUsername();
         String password = userBO.getPassword();
-
 
         // 0. 判断用户名和密码必须不为空
         if (StringUtils.isBlank(username) ||
@@ -139,28 +109,25 @@ public class PassportController {
 
         // 1. 实现登录
         Users userResult = userService.queryUserForLogin(username,
-                MD5Utils.getMD5Str(password));
+                    MD5Utils.getMD5Str(password));
 
         if (userResult == null) {
             return JSONResult.errorMsg("用户名或密码不正确");
         }
 
-        // 去除敏感信息
         userResult = setNullProperty(userResult);
 
-        // 在服务端将脱敏后的信息发到cookie中去
-        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(userResult), true);
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(userResult), true);
 
 
-        // TODO 生成用户token, 存入redis会话
+        // TODO 生成用户token，存入redis会话
         // TODO 同步购物车数据
+
         return JSONResult.ok(userResult);
-
-
-
     }
 
-    private Users setNullProperty(Users userResult){
+    private Users setNullProperty(Users userResult) {
         userResult.setPassword(null);
         userResult.setMobile(null);
         userResult.setEmail(null);
@@ -170,21 +137,20 @@ public class PassportController {
         return userResult;
     }
 
-    // 注销 /logout
+
+    @ApiOperation(value = "用户退出登录", notes = "用户退出登录", httpMethod = "POST")
     @PostMapping("/logout")
-    @ApiOperation(value = "用户注销", notes = "用户注销", httpMethod = "POST")
     public JSONResult logout(@RequestParam String userId,
-                             HttpServletRequest request,
-                             HttpServletResponse response){
-        // 清除用户相关的cookie
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
+
+        // 清除用户的相关信息的cookie
         CookieUtils.deleteCookie(request, response, "user");
+
         // TODO 用户退出登录，需要清空购物车
         // TODO 分布式会话中需要清除用户数据
+
         return JSONResult.ok();
-
     }
-
-
-
 
 }

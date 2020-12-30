@@ -69,7 +69,7 @@ public interface MyOrdersService {
      * @param pageSize
      * @return
      */
-    public PagedGridResult getOrderTrend(String userId,
+    public PagedGridResult getOrdersTrend(String userId,
                                             Integer page,
                                             Integer pageSize);
 }
