@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xidian.mapper.PCeshiMapper" >
+  <resultMap id="BaseResultMap" type="com.xidian.pojo.PCeshi" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="wos_cited" property="wosCited" jdbcType="INTEGER" />
+    <result column="publisher" property="publisher" jdbcType="VARCHAR" />
+    <result column="issn" property="issn" jdbcType="VARCHAR" />
+    <result column="eissn" property="eissn" jdbcType="VARCHAR" />
+    <result column="journal_iso" property="journalIso" jdbcType="VARCHAR" />
+    <result column="pub_year" property="pubYear" jdbcType="VARCHAR" />
+    <result column="volume" property="volume" jdbcType="VARCHAR" />
+    <result column="issue" property="issue" jdbcType="VARCHAR" />
+    <result column="start_page" property="startPage" jdbcType="VARCHAR" />
+    <result column="end_page" property="endPage" jdbcType="VARCHAR" />
+    <result column="article_num" property="articleNum" jdbcType="VARCHAR" />
+    <result column="doi" property="doi" jdbcType="VARCHAR" />
+    <result column="research_areas" property="researchAreas" jdbcType="VARCHAR" />
+    <result column="ids" property="ids" jdbcType="VARCHAR" />
+    <result column="ut" property="ut" jdbcType="VARCHAR" />
+    <result column="flag" property="flag" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="LONGVARCHAR" />
+    <result column="authors_fullname" property="authorsFullname" jdbcType="LONGVARCHAR" />
+    <result column="source_title" property="sourceTitle" jdbcType="LONGVARCHAR" />
+    <result column="keywords" property="keywords" jdbcType="LONGVARCHAR" />
+    <result column="abstracts" property="abstracts" jdbcType="LONGVARCHAR" />
+    <result column="addresses" property="addresses" jdbcType="LONGVARCHAR" />
+    <result column="emails" property="emails" jdbcType="LONGVARCHAR" />
+    <result column="orc_ids" property="orcIds" jdbcType="LONGVARCHAR" />
+    <result column="found_org" property="foundOrg" jdbcType="LONGVARCHAR" />
+  </resultMap>
+</mapper>

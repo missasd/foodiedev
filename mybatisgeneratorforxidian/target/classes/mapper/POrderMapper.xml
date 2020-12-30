@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xidian.mapper.POrderMapper" >
+  <resultMap id="BaseResultMap" type="com.xidian.pojo.POrder" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="paper_id" property="paperId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="ut" property="ut" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="authors_fullname" property="authorsFullname" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="LONGVARCHAR" />
+    <result column="source_title" property="sourceTitle" jdbcType="LONGVARCHAR" />
+    <result column="wos_cited" property="wosCited" jdbcType="LONGVARCHAR" />
+    <result column="abstracts" property="abstracts" jdbcType="LONGVARCHAR" />
+    <result column="research_areas" property="researchAreas" jdbcType="LONGVARCHAR" />
+    <result column="emails" property="emails" jdbcType="LONGVARCHAR" />
+    <result column="pub_year" property="pubYear" jdbcType="LONGVARCHAR" />
+  </resultMap>
+</mapper>
