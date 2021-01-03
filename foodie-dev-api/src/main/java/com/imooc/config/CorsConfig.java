@@ -18,10 +18,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedOrigin("http://localhost:8082");
-        config.addAllowedOrigin("http://shop.z.mukewang.com:8080");
-        config.addAllowedOrigin("http://center.z.mukewang.com:8080");
-        config.addAllowedOrigin("http://shop.z.mukewang.com");
-        config.addAllowedOrigin("http://center.z.mukewang.com");
+        config.addAllowedOrigin("http://192.168.8.189:8080");
+        config.addAllowedOrigin("http://192.168.8.189:80");
+        config.addAllowedOrigin("http://192.168.8.130:8080");
+        config.addAllowedOrigin("http://192.168.8.130:80");
         config.addAllowedOrigin("*");
 
         // 设置是否发送cookie信息

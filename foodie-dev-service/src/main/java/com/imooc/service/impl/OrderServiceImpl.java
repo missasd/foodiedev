@@ -90,7 +90,7 @@ public class OrderServiceImpl implements OrderService {
         Integer totalAmount = 0; // 商品原价累计 以分为单位
         Integer realPayAmount = 0; // 优惠后的实际支付价格
         for (String itemSpecId : itemSpecIdArr){
-            // TODO 整合redis后, 商品购买的数量重新从redis的购物车中获取
+            // 整合redis后, 商品购买的数量重新从redis的购物车中获取
             int buyCounts = 1;
 
             // 2.1 根据规格id, 查询规格的具体信息,主要获取价格

@@ -50,6 +50,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--打包war [2] 删除内置tomcat-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -88,11 +89,16 @@
             <version>2.1.0</version>
         </dependency>
 
-        <!-- mybatis逆向生成工具-->
+        <!-- mybatis通用mapper逆向生成工具-->
         <dependency>
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
             <version>2.1.5</version>
+        </dependency>
+        <!--引入 redis 依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!--apache工具类-->
